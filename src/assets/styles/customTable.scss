@@ -1,0 +1,54 @@
+$baseFontSize: 10;
+
+@function rem($size) {
+    $remSize: $size / $baseFontSize;
+    @if $size == 1 {
+        @return #{$size}px;
+    }
+    @return #{$remSize}rem;
+}
+
+.table-data {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    color: white;
+    background-color: #464d55;
+    border: solid 1px #424a51;
+}
+
+.row {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    width: 100%;
+    border-bottom: solid 1px #727272;
+    font-weight: 300;
+    &.header {
+        border: none;
+        position: sticky;
+        top: 0;
+        font-weight: 700;
+        min-height: 50px;
+        height: rem(30);
+        color: rgba(white, 0.8);
+        z-index: 10;
+        backdrop-filter: blur(rem(4));
+    }
+}
+
+.col {
+    flex: 2;
+    padding: 10px;
+    word-break: break-all;
+    display: flex;
+    color: white;
+    align-items: center;
+    &.sm {
+        flex: 1;
+    }
+    &.lg {
+        flex: 3;
+    }
+}
