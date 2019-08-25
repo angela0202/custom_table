@@ -5,12 +5,31 @@ import useLazyLoad from "../../hooks/useLazyLoad";
 import {isEqual} from "../../helpers/helpetFunctions";
 import '../../assets/styles/customTable.scss';
 
+const Checkbox = ({checked=false, handleChange, value}) => {
+  return (
+      <div className="checkbox">
+          <label onClick={(e) => e.stopPropagation()}>
+              <input
+                  type="checkbox"
+                  className="checkbox-input"
+                  value={value}
+                  checked={checked}
+                  onChange={handleChange}
+              />
+              <span />
+          </label>
+      </div>
+  )
+};
+
 const CustomTable = (props) => {
-    const {onScroll, headers, data, totalData, isLoading, onFilter, onItemClick, action, onRemoveItems} = props;
+    const {onScroll, headers, data, totalData, isLoading, onFilter, onItemClick, onRemoveItems} = props;
     const [sortActiveIndex, setSortActiveIndex] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [initialData, setInitialData] = useState(data);
     const scrollRef = useRef(null);
+    const [selectedItems, setSelectedItems] = useState({});
+    const [allSelected, setAllSelected] = useState(false);
 
     useLazyLoad(scrollRef, totalData, isLoading, data.length, onScroll, sortOrder);
 
@@ -63,6 +82,16 @@ const CustomTable = (props) => {
         onRemoveItems(data);
     };
 
+    const handleSelection = (e) => {
+        if (e.target.value === "all") {
+            setAllSelected(true);
+            setSelectedItems(Object.keys(selectedItems).reduce((acc, curr) => ({...acc, [curr]: true}), {}));
+            return;
+        }
+
+        setSelectedItems({...selectedItems, [e.target.value]: e.target.checked})
+    };
+
     return (
         <Scrollbar ref={scrollRef}>
             <div className="table-data">
@@ -76,16 +105,26 @@ const CustomTable = (props) => {
                         </div>
                     ))}
                     <div className="col" style={{width: `120px`}}>
-                        {action && "Actions"}
+                        {<React.Fragment>
+                            <span>Select All</span>
+                            <Checkbox checked={allSelected} value="all" handleChange={handleSelection}/>
+                            {allSelected && <i className="fas fa-trash" onClick={removeAction(data)} />}
+                        </React.Fragment>}
                     </div>
                 </div>
                 {
-                    data.map((val, index) => (
-                        <div className="row" key={index} onClick={() => onItemClick(val)}>
-                            {headers.map((head, index) => <div key={index} className="col" style={{width: `${head.width}px`}}>{val[head.dataIndex]}</div>)}
-                            <div className="col" onClick={removeAction(val)} style={{width: `120px`}}>{action}</div>
-                        </div>
-                    ))
+                    data.map((val, index) => {
+                        const isChecked = selectedItems.hasOwnProperty(val["iso3_code"]) ? selectedItems[val["iso3_code"]] : allSelected;
+                        return (
+                            <div className="row" key={index} onClick={() => onItemClick(val)}>
+                                {headers.map((head, index) => <div key={index} className="col" style={{width: `${head.width}px`}}>{val[head.dataIndex]}</div>)}
+                                <div className="col" style={{width: `120px`}}>
+                                    <Checkbox checked={isChecked} value={val["iso3_code"]} handleChange={handleSelection}/>
+                                    {isChecked && <i className="fas fa-trash" onClick={removeAction(val)}/>}
+                                </div>
+                            </div>
+                        )
+                    })
                 }
             </div>
         </Scrollbar>
@@ -100,8 +139,7 @@ CustomTable.propTypes = {
     headers: PropTypes.array,
     data: PropTypes.array,
     totalData: PropTypes.number,
-    isLoading: PropTypes.bool,
-    action: PropTypes.node
+    isLoading: PropTypes.bool
 };
 
 CustomTable.defaultProps = {

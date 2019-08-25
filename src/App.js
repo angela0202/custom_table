@@ -66,6 +66,10 @@ function App() {
     // };
 
     const onRemoveItems = (data) => {
+        if (Array.isArray(data)) {
+            updateData([]);
+            return;
+        }
         updateData(tableData.filter(val => val["iso3_code"] !== data["iso3_code"]))
     };
 
@@ -81,7 +85,6 @@ function App() {
                     totalData={totalData}
                     isLoading={loading}
                     onRemoveItems={onRemoveItems}
-                    action={<i className="fas fa-trash" />}
                 />
             </div>
             {selectedData && <Modal title="Detailed info" closeCallBack={() => setSelectedData(null)}>

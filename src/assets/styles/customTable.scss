@@ -70,3 +70,33 @@
         color: $red;
     }
 }
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-input {
+  + span {
+    color: red;
+    display: flex;
+    width: 15px;
+    height: 15px;
+    background: black;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    border: 1px solid #00CECC;
+    box-sizing: border-box;
+    transition: all 150ms;
+  }
+  &:checked {
+    + span {
+      border-width: 8px;
+      &::before {
+        content: '';
+        font-size: 15px;
+        color: black;
+      }
+    }
+  }
+}
