@@ -1,4 +1,6 @@
 $baseFontSize: 10;
+$green: #03C375;
+$red: #c4184a;
 
 @function rem($size) {
   $remSize: $size / $baseFontSize;

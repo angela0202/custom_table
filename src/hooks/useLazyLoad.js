@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export function useLazyLoad (scrollRef, totalCount, isLoading, dataLength, loadMore) {
+export function useLazyLoad (scrollRef, totalCount, isLoading, dataLength, loadMore, orderDirection) {
     const [isScrollEnd, setScrollEnd] = useState(null);
     const [totalCurrent, setTotalCurrent] = useState(0);
 
@@ -25,7 +25,7 @@ export function useLazyLoad (scrollRef, totalCount, isLoading, dataLength, loadM
     useEffect(() => {
         // load new data if scroll position is at the bottom
         if (isScrollEnd && totalCurrent < totalCount && !isLoading) {
-            loadMore();
+            loadMore(orderDirection);
         }
     }, [isScrollEnd]);
 

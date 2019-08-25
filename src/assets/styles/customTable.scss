@@ -55,6 +55,31 @@ html, body, #root {
         color: rgba(white, 0.8);
         z-index: 10;
         backdrop-filter: blur(rem(4));
+        i {
+            display: block;
+            font-size: rem(8);
+            margin: 0 0 0 rem(4);
+            animation: 5s sort-status infinite;
+            @keyframes sort-status {
+                from, to {
+                    transform: scale(1);
+                }
+                25%, 75% {
+                    transform: scale(1.1);
+                }
+                50% {
+                    transform: scale(0.5);
+                }
+            }
+            &.active {
+                &.fa-sort-up {
+                    color: $green;
+                }
+                &.fa-sort-down {
+                    color: $red;
+                }
+            }
+        }
     }
 }
 
