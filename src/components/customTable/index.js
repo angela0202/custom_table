@@ -1,30 +1,47 @@
 import React, {useRef} from "react";
 import '../../assets/styles/customTable.scss';
 import Scrollbar from "../scrollbar";
+import PropTypes from "prop-types";
+import useLazyLoad from "../../hooks/useLazyLoad";
 
-const CustomTable = () => {
+const CustomTable = (props) => {
+    const {onScroll, headers, data, totalData, isLoading} = props;
     const scrollRef = useRef(null);
+
+    useLazyLoad(scrollRef, totalData, isLoading, data.length, onScroll);
 
     return (
         <Scrollbar ref={scrollRef}>
             <div className="table-data">
                 <div className="row head">
-                    <div className="col">Name</div>
-                    <div className="col">User</div>
+                    {headers.map((val, index) => <div key={index} className="col">{val.title}</div>)}
                 </div>
                 {
-                    Array(50).fill({name: 'aaaa afdfads adf', data: 'bbb'}).map((val) => {
+                    data.map((val, index) => {
+                        const dataKeys = headers.map(val => val.dataIndex);
                         return (
-                            <div className="row">
-                                <div className="col">{val.name}</div>
-                                <div className="col">{val.data}</div>
+                            <div className="row" key={index}>
+                                {dataKeys.map((key, index) => <div key={index} className="col">{val[key]}</div>)}
                             </div>
-                        );
+                        )
                     })
                 }
             </div>
         </Scrollbar>
     )
+};
+
+CustomTable.propTypes = {
+    onScroll: PropTypes.func,
+    headers: PropTypes.array,
+    data: PropTypes.array,
+    totalData: PropTypes.number,
+    isLoading: PropTypes.bool
+};
+
+CustomTable.defaultProps = {
+    onScroll: () => {},
+    data: []
 };
 
 export default CustomTable;
