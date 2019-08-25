@@ -84,8 +84,8 @@ const CustomTable = (props) => {
 
     const handleSelection = (e) => {
         if (e.target.value === "all") {
-            setAllSelected(true);
-            setSelectedItems(Object.keys(selectedItems).reduce((acc, curr) => ({...acc, [curr]: true}), {}));
+            setAllSelected(!allSelected);
+            setSelectedItems(Object.keys(selectedItems).reduce((acc, curr) => ({...acc, [curr]: !allSelected}), {}));
             return;
         }
 
