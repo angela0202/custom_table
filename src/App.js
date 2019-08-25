@@ -15,6 +15,12 @@ const headers = [
         title: 'Name',
         width: 120,
         sorter: false,
+    },
+    {
+        dataIndex: 'region_name',
+        title: 'Region',
+        width: 120,
+        sorter: false,
     }
 ];
 
@@ -59,39 +65,44 @@ function App() {
     //     updateData(tData);
     // };
 
+    const onRemoveItems = (data) => {
+        updateData(tableData.filter(val => val["iso3_code"] !== data["iso3_code"]))
+    };
+
     return (
-      <React.Fragment>
-          <CustomTable
-              onScroll={onScroll}
-              // onFilter={onFilter(mode)}
-              onItemClick={setSelectedData}
-              headers={headers}
-              data={tableData}
-              totalData={totalData}
-              isLoading={loading}
-              onRemoveItems={() => {}}
-          />
-          {selectedData && <Modal title="Detailed info" closeCallBack={() => setSelectedData(null)}>
-                <div>
-                    <div className="row">
-                        <div className="col">Country code</div>
-                        <div className="col">{selectedData["iso3_code"]}</div>
-                    </div>
-                    <div className="row">
-                        <div className="col">Country name</div>
-                        <div className="col">{selectedData.name}</div>
-                    </div>
-                    <div className="row">
-                        <div className="col">Region name</div>
-                        <div className="col">{selectedData["region_name"]}</div>
-                    </div>
-                    <div className="row">
-                        <div className="col">SubRegion name</div>
-                        <div className="col">{selectedData["sub_region_name"]}</div>
-                    </div>
-                </div>
-          </Modal>}
-      </React.Fragment>
+        <React.Fragment>
+            <CustomTable
+                onScroll={onScroll}
+                // onFilter={onFilter(mode)}
+                onItemClick={setSelectedData}
+                headers={headers}
+                data={tableData}
+                totalData={totalData}
+                isLoading={loading}
+                onRemoveItems={onRemoveItems}
+                action={<i className="fas fa-trash" />}
+            />
+            {selectedData && <Modal title="Detailed info" closeCallBack={() => setSelectedData(null)}>
+                  <div>
+                      <div className="row">
+                          <div className="col">Country code</div>
+                          <div className="col">{selectedData["iso3_code"]}</div>
+                      </div>
+                      <div className="row">
+                          <div className="col">Country name</div>
+                          <div className="col">{selectedData.name}</div>
+                      </div>
+                      <div className="row">
+                          <div className="col">Region name</div>
+                          <div className="col">{selectedData["region_name"]}</div>
+                      </div>
+                      <div className="row">
+                          <div className="col">SubRegion name</div>
+                          <div className="col">{selectedData["sub_region_name"]}</div>
+                      </div>
+                  </div>
+            </Modal>}
+        </React.Fragment>
   );
 }
 

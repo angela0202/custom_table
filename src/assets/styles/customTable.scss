@@ -61,10 +61,7 @@
     display: flex;
     color: rgba(black, 0.7);
     align-items: center;
-    &.sm {
-        flex: 1;
-    }
-    &.lg {
-        flex: 3;
+    i:hover {
+        color: $red;
     }
 }

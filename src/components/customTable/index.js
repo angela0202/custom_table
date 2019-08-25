@@ -6,7 +6,7 @@ import {isEqual} from "../../helpers/helpetFunctions";
 import '../../assets/styles/customTable.scss';
 
 const CustomTable = (props) => {
-    const {onScroll, headers, data, totalData, isLoading, onFilter, onItemClick} = props;
+    const {onScroll, headers, data, totalData, isLoading, onFilter, onItemClick, action, onRemoveItems} = props;
     const [sortActiveIndex, setSortActiveIndex] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [initialData, setInitialData] = useState(data);
@@ -58,6 +58,11 @@ const CustomTable = (props) => {
         }
     }, [initialData, data, sortActiveIndex]);
 
+    const removeAction = (data) => (e) => {
+        e.stopPropagation();
+        onRemoveItems(data);
+    };
+
     return (
         <Scrollbar ref={scrollRef}>
             <div className="table-data">
@@ -70,6 +75,9 @@ const CustomTable = (props) => {
                                 onClick={onSortClick(val)}/>}
                         </div>
                     ))}
+                    <div className="col">
+                        {action && "Actions"}
+                    </div>
                 </div>
                 {
                     data.map((val, index) => {
@@ -77,6 +85,7 @@ const CustomTable = (props) => {
                         return (
                             <div className="row" key={index} onClick={() => onItemClick(val)}>
                                 {dataKeys.map((key, index) => <div key={index} className="col">{val[key]}</div>)}
+                                <div className="col" onClick={removeAction(val)}>{action}</div>
                             </div>
                         )
                     })
@@ -90,10 +99,12 @@ CustomTable.propTypes = {
     onScroll: PropTypes.func,
     onFilter: PropTypes.func,
     onItemClick: PropTypes.func,
+    onRemoveItems: PropTypes.func,
     headers: PropTypes.array,
     data: PropTypes.array,
     totalData: PropTypes.number,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    action: PropTypes.node
 };
 
 CustomTable.defaultProps = {
