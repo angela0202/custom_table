@@ -33,23 +33,14 @@ const CustomTable = (props) => {
 
     useLazyLoad(scrollRef, totalData, isLoading, data.length, onScroll, sortOrder);
 
-    const sortData = (index) => {
-        data.sort((a, b) => b[index].toLowerCase() - a[index].toLowerCase() > 0
-            ? 1 : b[index].toLowerCase() - a[index].toLowerCase() < 0 ? -1 : 0).reverse();
+    const sortData = (index, mode) => {
+        data.sort((a, b) => mode ==="asc" ? a[index].localeCompare( b[index]): -( a[index].localeCompare(  b[index])));
     };
 
     const handleDefaultSorting = (index, mode) => {
         setSortActiveIndex(index);
-        sortData(index);
-        switch (mode) {
-            case 'desc': {
-                return setSortOrder('asc');
-            }
-            case 'asc':
-            default: {
-                return setSortOrder('desc');
-            }
-        }
+        sortData(index, mode);
+        setSortOrder(mode === "asc" ? "desc" : "asc");
     };
 
     const onSortClick = (data) => () => {
@@ -71,11 +62,11 @@ const CustomTable = (props) => {
             return;
         }
         if (initialData.length !== data.length && !isEqual(initialData, data)) {
-            setSortOrder(null);
+            setSortOrder('asc');
             setSortActiveIndex(null);
             setInitialData(data);
         }
-    }, [initialData, data, sortActiveIndex]);
+    }, [initialData, data]);
 
     const removeAction = (data) => (e) => {
         e.stopPropagation();

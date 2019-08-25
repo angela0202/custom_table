@@ -55,11 +55,11 @@ function App() {
             });
     };
 
-    // // example of controlled sorting
+    // example of controlled sorting
     // const onFilter = (mode) => (data, toggleSortStatus) => {
     //     const index = data.dataIndex;
     //     const tData = JSON.parse(JSON.stringify(tableData));
-    //     tData.sort((a, b) => b[index].toLowerCase() - a[index].toLowerCase() > 0 ? 1 : b[index].toLowerCase() - a[index].toLowerCase() < 0 ? -1 : 0).reverse()
+    //     tData.sort((a, b) => mode ==="asc" ? a[index].localeCompare( b[index]): -( a[index].localeCompare(  b[index])));
     //     toggleSortStatus(mode);
     //     toggleMode(mode === "asc" ? "desc" : "asc");
     //     updateData(tData);
