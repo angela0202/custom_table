@@ -68,27 +68,24 @@ const CustomTable = (props) => {
             <div className="table-data">
                 <div className="row head">
                     {headers.map((val, index) => (
-                        <div key={index} className="col">
+                        <div key={index} className="col" style={{width: `${val.width}px`}}>
                             <span>{val.title}</span>
                             {val.sorter && <i
                                 className={`fas ${sortActiveIndex === val.dataIndex ? 'active' : ''} fa-sort-${sortOrder ? sortOrder === 'asc' ? 'up' : 'down' : 'up'}`}
                                 onClick={onSortClick(val)}/>}
                         </div>
                     ))}
-                    <div className="col">
+                    <div className="col" style={{width: `120px`}}>
                         {action && "Actions"}
                     </div>
                 </div>
                 {
-                    data.map((val, index) => {
-                        const dataKeys = headers.map(val => val.dataIndex);
-                        return (
-                            <div className="row" key={index} onClick={() => onItemClick(val)}>
-                                {dataKeys.map((key, index) => <div key={index} className="col">{val[key]}</div>)}
-                                <div className="col" onClick={removeAction(val)}>{action}</div>
-                            </div>
-                        )
-                    })
+                    data.map((val, index) => (
+                        <div className="row" key={index} onClick={() => onItemClick(val)}>
+                            {headers.map((head, index) => <div key={index} className="col" style={{width: `${head.width}px`}}>{val[head.dataIndex]}</div>)}
+                            <div className="col" onClick={removeAction(val)} style={{width: `120px`}}>{action}</div>
+                        </div>
+                    ))
                 }
             </div>
         </Scrollbar>

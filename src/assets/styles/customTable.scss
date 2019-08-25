@@ -1,19 +1,23 @@
 @import "helpers";
 
+.wrapper {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .table-data {
-    width: 100%;
+    width: max-content;
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    color: white;
-    background-color: #dbf8ff;
 }
 
 .row {
     display: flex;
     flex-flow: row nowrap;
-    align-items: stretch;
-    width: 100%;
     border-bottom: solid 1px rgba(#31b9ad, 0.5);
     font-weight: 300;
     &.head {
@@ -29,6 +33,7 @@
         i {
             display: block;
             font-size: rem(8);
+            width: 20px !important;
             margin: 0 0 0 rem(4);
             animation: 5s sort-status infinite;
             @keyframes sort-status {

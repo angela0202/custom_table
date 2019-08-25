@@ -7,19 +7,19 @@ const headers = [
     {
         dataIndex: 'iso3_code',
         title: 'Iso3 code',
-        width: 120,
+        width: 200,
         sorter: true,
     },
     {
         dataIndex: 'name',
         title: 'Name',
-        width: 120,
+        width: 250,
         sorter: false,
     },
     {
         dataIndex: 'region_name',
         title: 'Region',
-        width: 120,
+        width: 200,
         sorter: false,
     }
 ];
@@ -71,17 +71,19 @@ function App() {
 
     return (
         <React.Fragment>
-            <CustomTable
-                onScroll={onScroll}
-                // onFilter={onFilter(mode)}
-                onItemClick={setSelectedData}
-                headers={headers}
-                data={tableData}
-                totalData={totalData}
-                isLoading={loading}
-                onRemoveItems={onRemoveItems}
-                action={<i className="fas fa-trash" />}
-            />
+            <div className="wrapper">
+                <CustomTable
+                    onScroll={onScroll}
+                    // onFilter={onFilter(mode)}
+                    onItemClick={setSelectedData}
+                    headers={headers}
+                    data={tableData}
+                    totalData={totalData}
+                    isLoading={loading}
+                    onRemoveItems={onRemoveItems}
+                    action={<i className="fas fa-trash" />}
+                />
+            </div>
             {selectedData && <Modal title="Detailed info" closeCallBack={() => setSelectedData(null)}>
                   <div>
                       <div className="row">
