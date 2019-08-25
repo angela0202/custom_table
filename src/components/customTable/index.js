@@ -6,7 +6,7 @@ import {isEqual} from "../../helpers/helpetFunctions";
 import '../../assets/styles/customTable.scss';
 
 const CustomTable = (props) => {
-    const {onScroll, headers, data, totalData, isLoading, onFilter} = props;
+    const {onScroll, headers, data, totalData, isLoading, onFilter, onItemClick} = props;
     const [sortActiveIndex, setSortActiveIndex] = useState(null);
     const [sortOrder, setSortOrder] = useState(null);
     const [initialData, setInitialData] = useState(data);
@@ -75,7 +75,7 @@ const CustomTable = (props) => {
                     data.map((val, index) => {
                         const dataKeys = headers.map(val => val.dataIndex);
                         return (
-                            <div className="row" key={index}>
+                            <div className="row" key={index} onClick={() => onItemClick(val)}>
                                 {dataKeys.map((key, index) => <div key={index} className="col">{val[key]}</div>)}
                             </div>
                         )
@@ -89,6 +89,7 @@ const CustomTable = (props) => {
 CustomTable.propTypes = {
     onScroll: PropTypes.func,
     onFilter: PropTypes.func,
+    onItemClick: PropTypes.func,
     headers: PropTypes.array,
     data: PropTypes.array,
     totalData: PropTypes.number,
@@ -97,6 +98,7 @@ CustomTable.propTypes = {
 
 CustomTable.defaultProps = {
     onScroll: () => {},
+    onItemClick: () => {},
     data: []
 };
 

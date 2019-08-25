@@ -1,0 +1,72 @@
+@import "helpers";
+
+.modal-holder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100000000000000;
+  background: rgba(#080b19, 0.87);
+  box-shadow: 0 0 0 100vw rgba(#080b19, 0.87);
+  opacity: 0;
+  animation: 300ms modal-holder forwards;
+  transform: translate3d(0,0,rem(100));
+  display: flex;
+  padding: rem(12);
+  @keyframes modal-holder {
+    to {
+      opacity: 1;
+    }
+  }
+}
+.modal {
+  width: rem(968);
+  box-shadow: 0 rem(2) rem(4) 0 rgba(0, 0, 0, 0.5);
+  background: #ffffff;
+  animation: 400ms modal 100ms forwards;
+  border-radius: rem(20);
+  position: relative;
+  z-index: 10;
+  margin: auto;
+  transform: scaleX(1);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 0 rem(18);
+  height: rem(66);
+  background: #dbf8ff;
+  border-radius: rem(20) rem(20) 0 0;
+  text-transform: capitalize;
+  position: relative;
+  h1 {
+    flex: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font: 500 rem(20) / rem(22);
+    padding: 0 rem(12);
+  }
+  button {
+    flex-shrink: 0;
+    width: rem(30);
+    height: rem(30);
+    border-radius: 100%;
+    color: inherit;
+    cursor: pointer;
+    font-size: rem(10);
+    border: solid rem(1) rgba(black, 0.16);
+    background: rgba(#ff1414, 0.23);
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+}
+.modal-body {
+  padding: rem(18);
+  font: 500 rem(16) / 1.5;
+  user-select: text;
+  color: rgba(black, 0.8);
+  height: rem(200);
+}

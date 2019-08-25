@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CustomTable from "./components/customTable";
 import connectionService from "./services/connectionService";
+import Modal from "./components/modal";
 
 const headers = [
     {
@@ -24,6 +25,7 @@ function App() {
     const [tableData, updateData] = useState([]);
     const [totalData, setTotalData] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
     // const [mode, toggleMode] = useState('desc');
 
     useEffect(() => {
@@ -57,18 +59,38 @@ function App() {
     //     updateData(tData);
     // };
 
-  return (
+    return (
       <React.Fragment>
           <CustomTable
               onScroll={onScroll}
               // onFilter={onFilter(mode)}
+              onItemClick={setSelectedData}
               headers={headers}
               data={tableData}
               totalData={totalData}
               isLoading={loading}
-              onItemClick={() => {}}
               onRemoveItems={() => {}}
           />
+          {selectedData && <Modal title="Detailed info" closeCallBack={() => setSelectedData(null)}>
+                <div>
+                    <div className="row">
+                        <div className="col">Country code</div>
+                        <div className="col">{selectedData["iso3_code"]}</div>
+                    </div>
+                    <div className="row">
+                        <div className="col">Country name</div>
+                        <div className="col">{selectedData.name}</div>
+                    </div>
+                    <div className="row">
+                        <div className="col">Region name</div>
+                        <div className="col">{selectedData["region_name"]}</div>
+                    </div>
+                    <div className="row">
+                        <div className="col">SubRegion name</div>
+                        <div className="col">{selectedData["sub_region_name"]}</div>
+                    </div>
+                </div>
+          </Modal>}
       </React.Fragment>
   );
 }
